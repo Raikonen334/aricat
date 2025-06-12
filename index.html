@@ -52,6 +52,11 @@
         <label class="block mb-1 font-medium text-gray-700">Alamat</label>
         <textarea id="alamat" class="w-full border border-gray-300 rounded-lg px-4 py-2" placeholder="Alamat lengkap Anda" required></textarea>
       </div>
+      <div>
+        <label class="block mb-1 font-medium text-gray-700">Biaya Layanan (Rp)</label>
+        <input id="biaya" type="number" class="w-full border border-gray-300 rounded-lg px-4 py-2" placeholder="Contoh: 75000" required />
+      </div>
+      <p id="error-message" class="text-red-600 text-sm hidden">Mohon lengkapi semua kolom sebelum mengirim.</p>
       <button type="submit" class="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
         Kirim Jadwal via WhatsApp
       </button>
@@ -70,12 +75,22 @@
 
     function sendToWhatsApp(event) {
       event.preventDefault();
-      const nama = document.getElementById("nama").value;
+      const nama = document.getElementById("nama").value.trim();
       const tanggal = document.getElementById("tanggal").value;
       const waktu = document.getElementById("waktu").value;
-      const alamat = document.getElementById("alamat").value;
-      const message = `Halo, saya ingin booking layanan WashCat.\n\nNama: ${nama}\nTanggal: ${tanggal}\nWaktu: ${waktu}\nAlamat: ${alamat}`;
-      const whatsappURL = `https://wa.me/6287856693328?text=${encodeURIComponent(message)}`;
+      const alamat = document.getElementById("alamat").value.trim();
+      const biaya = document.getElementById("biaya").value.trim();
+      const errorMsg = document.getElementById("error-message");
+
+      if (!nama || !tanggal || !waktu || !alamat || !biaya) {
+        errorMsg.classList.remove("hidden");
+        return;
+      } else {
+        errorMsg.classList.add("hidden");
+      }
+
+      const message = `Halo, saya ingin booking layanan WashCat.%0A%0ANama: ${nama}%0ATanggal: ${tanggal}%0AWaktu: ${waktu}%0AAlamat: ${alamat}%0ABiaya: Rp${biaya}`;
+      const whatsappURL = `https://wa.me/6281352295925?text=${message}`;
       window.open(whatsappURL, "_blank");
     }
   </script>
