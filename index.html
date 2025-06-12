@@ -41,6 +41,15 @@
         <input id="nama" type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2" placeholder="Nama Anda" required />
       </div>
       <div>
+        <label class="block mb-1 font-medium text-gray-700">Pilih Paket</label>
+        <select id="paket" class="w-full border border-gray-300 rounded-lg px-4 py-2" required>
+          <option value="">-- Pilih Paket --</option>
+          <option value="Cuci Kering - Rp50.000">Cuci Kering - Rp50.000</option>
+          <option value="Cuci Basah - Rp60.000">Cuci Basah - Rp60.000</option>
+          <option value="Cuci + Grooming - Rp100.000">Cuci + Grooming - Rp100.000</option>
+        </select>
+      </div>
+      <div>
         <label class="block mb-1 font-medium text-gray-700">Tanggal</label>
         <input id="tanggal" type="date" class="w-full border border-gray-300 rounded-lg px-4 py-2" required />
       </div>
@@ -49,12 +58,9 @@
         <input id="waktu" type="time" class="w-full border border-gray-300 rounded-lg px-4 py-2" required />
       </div>
       <div>
-        <label class="block mb-1 font-medium text-gray-700">Alamat</label>
-        <textarea id="alamat" class="w-full border border-gray-300 rounded-lg px-4 py-2" placeholder="Alamat lengkap Anda" required></textarea>
-      </div>
-      <div>
-        <label class="block mb-1 font-medium text-gray-700">Biaya Layanan (Rp)</label>
-        <input id="biaya" type="number" class="w-full border border-gray-300 rounded-lg px-4 py-2" placeholder="Contoh: 75000" required />
+        <label class="block mb-1 font-medium text-gray-700">Tautan Lokasi Google Maps</label>
+        <input id="alamat" type="url" class="w-full border border-gray-300 rounded-lg px-4 py-2" placeholder="https://maps.google.com/your-location" required />
+        <p class="text-xs text-gray-500 mt-1">Salin lokasi Anda dari Google Maps, lalu tempelkan di sini.</p>
       </div>
       <p id="error-message" class="text-red-600 text-sm hidden">Mohon lengkapi semua kolom sebelum mengirim.</p>
       <button type="submit" class="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
@@ -76,20 +82,20 @@
     function sendToWhatsApp(event) {
       event.preventDefault();
       const nama = document.getElementById("nama").value.trim();
+      const paket = document.getElementById("paket").value;
       const tanggal = document.getElementById("tanggal").value;
       const waktu = document.getElementById("waktu").value;
       const alamat = document.getElementById("alamat").value.trim();
-      const biaya = document.getElementById("biaya").value.trim();
       const errorMsg = document.getElementById("error-message");
 
-      if (!nama || !tanggal || !waktu || !alamat || !biaya) {
+      if (!nama || !paket || !tanggal || !waktu || !alamat) {
         errorMsg.classList.remove("hidden");
         return;
       } else {
         errorMsg.classList.add("hidden");
       }
 
-      const message = `Halo, saya ingin booking layanan WashCat.%0A%0ANama: ${nama}%0ATanggal: ${tanggal}%0AWaktu: ${waktu}%0AAlamat: ${alamat}%0ABiaya: Rp${biaya}`;
+      const message = `Halo, saya ingin booking layanan WashCat.%0A%0ANama: ${nama}%0APaket: ${paket}%0ATanggal: ${tanggal}%0AWaktu: ${waktu}%0ALokasi: ${alamat}`;
       const whatsappURL = `https://wa.me/6281352295925?text=${message}`;
       window.open(whatsappURL, "_blank");
     }
